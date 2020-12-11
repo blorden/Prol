@@ -1,0 +1,2 @@
+mov rax 10000.9
+dout rax

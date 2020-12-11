@@ -1,0 +1,110 @@
+;ax^2 + bx + c = 0
+start:
+
+	din rax 				;читаю коэфициэнты
+	din rbx
+	din rcx
+
+	dcmp rax 0.0 			;если 0, то сводится к линейному ур-ю
+	je   lin_ur
+
+	dsqr rbx rlx			;rlx: b^2
+
+	mov  rfx rcx			;rpx: -4ac
+	dmul rfx 4.0
+	pop  rfx
+	dmul rfx rax
+	pop  rfx
+
+	mov  rpx 0.0
+	dsub rpx rfx
+	pop  rpx
+
+	mov  rox 0.0			 ;rox: b^2 - 4ac
+	dadd rox rlx
+	pop  rox
+	dadd rox rpx
+	pop  rox
+
+	dcmp rox 0.0			;если дискрименант меньше нуля 
+	jb   print_netu
+
+	je   odin_koren			;если дискрименант равен нулю
+
+	sqrt rox rox			;получаю корень дискрименанта
+
+	mov  rmx 0.0            ;первый корень
+	dsub rmx rbx
+	pop  rmx
+	dsub rmx rox
+	pop  rmx
+	ddiv rmx 2.0
+	pop  rmx
+	ddiv rmx rax
+	pop  rmx
+
+	lout 2
+	dout rmx
+
+	mov  rmx 0.0            ;второй корень
+	dsub rmx rbx
+	pop  rmx
+	dadd rmx rox
+	pop  rmx
+	ddiv rmx 2.0
+	pop  rmx
+	ddiv rmx rax
+	pop  rmx
+
+	dout rmx
+
+	hlt
+
+lin_ur:
+
+	dcmp rbx 0.0 			;если коэфициэнты a и b нули
+	je   a_b_0
+
+	mov  rdx 0.0
+	dsub rdx rcx
+	pop  rdx
+	ddiv rdx rbx
+	pop  rdx
+
+	lout 1	
+	dout rdx
+
+	hlt
+
+a_b_0:
+
+	dcmp rcx 0.0
+	je   print_besk
+	jne  print_netu
+
+print_besk:
+
+	lout 1000000000
+	hlt
+
+print_netu:
+	
+	lout -1000000000
+	hlt
+
+odin_koren:
+
+	mov  rex 0.0
+	dsub rex rbx
+	pop  rex
+	ddiv rex 2.0
+	pop  rex
+	ddiv rex rax
+	pop  rex
+
+	lout 1
+	dout rex
+
+	hlt 
+	
+	
